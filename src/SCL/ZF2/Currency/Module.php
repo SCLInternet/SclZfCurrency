@@ -7,6 +7,7 @@ use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\ModuleManager\Feature\ServiceProviderInterface;
 use SCL\Currency\CurrencyFactory;
 use SCL\Currency\MoneyFactory;
+use SCL\Currency\TaxedPriceFactory;
 
 class Module implements
     AutoloaderProviderInterface,
@@ -44,6 +45,9 @@ class Module implements
                 'scl_currency.money_factory.default' => function ($sm) {
                     return MoneyFactory::createDefaultInstance();
                 },
+                'scl_currency.taxed_price_factory.default' => function ($sm) {
+                    return TaxedPriceFactory::createDefaultInstance();
+                },
 
                 'scl_currency.currency_factory' => function ($sm) {
                     $config = $sm->get('scl_currency.config');
@@ -54,6 +58,11 @@ class Module implements
                     $config = $sm->get('scl_currency.config');
 
                     return $sm->get($config['scl_currency.money_factory']);
+                },
+                'scl_currency.taxed_price_factory' => function ($sm) {
+                    $config = $sm->get('scl_currency.config');
+
+                    return $sm->get($config['scl_currency.taxed_price_factory']);
                 },
             ],
         ];

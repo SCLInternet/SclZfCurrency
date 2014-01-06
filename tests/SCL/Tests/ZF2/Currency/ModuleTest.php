@@ -22,6 +22,14 @@ class ModuleTest extends AbstractTestCase
         );
     }
 
+    public function test_service_manager_creates_default_taxed_price_factory()
+    {
+        $this->assertServiceIsInstanceOf(
+            'SCL\Currency\TaxedPriceFactory',
+            'scl_currency.taxed_price_factory.default'
+        );
+    }
+
     public function test_service_manager_creates_currency_factory()
     {
         $this->assertServiceIsInstanceOf(
@@ -35,6 +43,14 @@ class ModuleTest extends AbstractTestCase
         $this->assertServiceIsInstanceOf(
             'SCL\Currency\MoneyFactory',
             'scl_currency.money_factory'
+        );
+    }
+
+    public function test_service_manager_creates_taxed_price_factory()
+    {
+        $this->assertServiceIsInstanceOf(
+            'SCL\Currency\TaxedPriceFactory',
+            'scl_currency.taxed_price_factory'
         );
     }
 }
