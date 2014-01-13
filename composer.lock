@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/SCLInternet/SclCurrency.git",
-                "reference": "55576492607d440999ef20dba295534c345ec04f"
+                "reference": "50a00172f870745dbb41f4eff655476189fbe686"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SCLInternet/SclCurrency/zipball/55576492607d440999ef20dba295534c345ec04f",
-                "reference": "55576492607d440999ef20dba295534c345ec04f",
+                "url": "https://api.github.com/repos/SCLInternet/SclCurrency/zipball/50a00172f870745dbb41f4eff655476189fbe686",
+                "reference": "50a00172f870745dbb41f4eff655476189fbe686",
                 "shasum": ""
             },
             "require": {
@@ -49,7 +49,7 @@
             ],
             "description": "Library of classes for dealing with currency",
             "homepage": "https://github.com/SCLInternet/SclCurrency",
-            "time": "2014-01-10 17:31:50"
+            "time": "2014-01-13 16:25:19"
         },
         {
             "name": "zendframework/zendframework",
