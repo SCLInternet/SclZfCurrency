@@ -94,6 +94,14 @@ class ModuleTest extends AbstractTestCase
         );
     }
 
+    public function test_service_manager_creates_money_strategy()
+    {
+        $this->assertServiceIsInstanceOf(
+            'SCL\ZF2\Currency\Hydrator\Strategy\MoneyStrategy',
+            'SCL\ZF2\Currency\Hydrator\Strategy\MoneyStrategy'
+        );
+    }
+
     /*
      * View helper config
      */
@@ -105,6 +113,34 @@ class ModuleTest extends AbstractTestCase
         $this->assertInstanceOf(
             'SCL\ZF2\Currency\View\Helper\FormatMoney',
             $vhm->get('formatMoney')
+        );
+    }
+
+    /*
+     * Hydrator config
+     */
+
+    public function test_taxed_price_hydrator()
+    {
+        $hm = $this->getServiceManager()->get('HydratorManager');
+
+        $this->assertInstanceOf(
+            'Zend\Stdlib\Hydrator\HydratorInterface',
+            $hm->get('scl_currency.taxed_price_hydrator')
+        );
+    }
+
+    /*
+     * Form element config
+     */
+
+    public function test_taxed_price_element()
+    {
+        $fem = $this->getServiceManager()->get('FormElementManager');
+
+        $this->assertInstanceOf(
+            'SCL\ZF2\Currency\Form\Fieldset\TaxedPrice',
+            $fem->get('SCL\ZF2\Currency\Form\Fieldset\TaxedPrice')
         );
     }
 }

@@ -15,10 +15,14 @@ use Zend\ModuleManager\Feature\ServiceProviderInterface;
 use Zend\ModuleManager\Feature\ViewHelperProviderInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use SCL\ZF2\Currency\View\Helper\FormatMoney;
+use Zend\ModuleManager\Feature\HydratorProviderInterface;
+use Zend\ModuleManager\Feature\FormElementProviderInterface;
 
 class Module implements
     AutoloaderProviderInterface,
     ConfigProviderInterface,
+    FormElementProviderInterface,
+    HydratorProviderInterface,
     ServiceProviderInterface,
     ViewHelperProviderInterface
 {
@@ -38,6 +42,35 @@ class Module implements
         return include __DIR__ . '/../../../../config/module.config.php';
     }
 
+    public function getFormElementConfig()
+    {
+        return [
+            'factories' => [
+                'SCL\ZF2\Currency\Form\Fieldset\TaxedPrice' => function ($fem) {
+                    return new \SCL\ZF2\Currency\Form\Fieldset\TaxedPrice();
+                }
+            ],
+        ];
+    }
+
+    public function getHydratorConfig()
+    {
+        return [
+            'factories' => [
+                'scl_currency.taxed_price_hydrator' => function ($hm) {
+                    $sm = $hm->getServiceLocator();
+                    $ms = $sm->get('SCL\ZF2\Currency\Hydrator\Strategy\MoneyStrategy');
+
+                    $hydrator = new \Zend\Stdlib\Hydrator\ClassMethods();
+                    $hydrator->addStrategy('amount', $ms);
+                    $hydrator->addStrategy('tax', $ms);
+
+                    return $hydrator;
+                },
+            ],
+        ];
+    }
+
     public function getServiceConfig()
     {
         return [
@@ -45,6 +78,14 @@ class Module implements
                 'scl_currency.config' => function ($sm) {
                     return $sm->get('Config')['scl_currency'];
                 },
+
+                'SCL\ZF2\Currency\Hydrator\Strategy\MoneyStrategy' => function ($sm) {
+                    return new \SCL\ZF2\Currency\Hydrator\Strategy\MoneyStrategy(
+                        $sm->get('scl_currency.money_factory')
+                    );
+                },
+
+                // Defaults
 
                 'scl_currency.currency_factory.default' => function ($sm) {
                     $config = $sm->get('scl_currency.config');
@@ -67,6 +108,8 @@ class Module implements
                 'scl_currency.string_money_formatter.default' => function ($sm) {
                     return Formatter::createDefaultInstance(new AsciiContext());
                 },
+
+                // Configurable
 
                 'scl_currency.currency_factory' => function ($sm) {
                     return $this->getServiceModuleConfig($sm, 'currency_factory');
