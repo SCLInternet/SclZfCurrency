@@ -85,6 +85,12 @@ class Module implements
                     );
                 },
 
+                'SCL\ZF2\Currency\Hydrator\Strategy\TaxedPriceStrategy' => function ($sm) {
+                    return new \SCL\ZF2\Currency\Hydrator\Strategy\TaxedPriceStrategy(
+                        $sm->get('scl_currency.taxed_price_factory')
+                    );
+                },
+
                 // Defaults
 
                 'scl_currency.currency_factory.default' => function ($sm) {

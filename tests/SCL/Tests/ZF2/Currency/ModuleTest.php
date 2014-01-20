@@ -102,6 +102,14 @@ class ModuleTest extends AbstractTestCase
         );
     }
 
+    public function test_service_manager_creates_price_strategy()
+    {
+        $this->assertServiceIsInstanceOf(
+            'SCL\ZF2\Currency\Hydrator\Strategy\TaxedPriceStrategy',
+            'SCL\ZF2\Currency\Hydrator\Strategy\TaxedPriceStrategy'
+        );
+    }
+
     /*
      * View helper config
      */
